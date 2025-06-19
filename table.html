@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <title>Shri Shambhu Leakhni - टेबल व्यू</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    .header {
+      text-align: center;
+      background: #4b5320;
+      color: white;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .view-toggle {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .view-toggle a {
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 18px;
+      color: #222;
+      background: #c8e6c9;
+      padding: 6px 12px;
+      border-radius: 8px;
+    }
+    table.dataTable th,
+    table.dataTable td {
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">📋 श्री शंभू लेखनी - टेबल व्यू</div>
+
+  <div class="view-toggle">
+    <a href="/card">👤 कार्ड व्यू</a>
+    <a href="/table">📋 टेबल व्यू</a>
+  </div>
+
+  <table id="myTable" class="display nowrap" style="width:100%">
+    <thead>
+      <tr>
+        {% for col in columns %}
+        <th>{{ col }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in data %}
+      <tr>
+        {% for col in columns %}
+        <td>{{ row[col] }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      let table = $('#myTable').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+          {
+            extend: 'colvis',
+            text: '🧩 कॉलम छांटें'
+          },
+          {
+            extend: 'print',
+            text: '🖨️ प्रिंट करें',
+            exportOptions: {
+              columns: function (idx, data, node) {
+                return table.column(idx).visible();
+              }
+            }
+          }
+        ]
+      });
+    });
+  </script>
+</body>
+</html>
