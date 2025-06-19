@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>श्री शंभू लेखनी — कार्ड व्यू</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body {font-family:'Segoe UI',sans-serif;background:#fff7e6;padding:20px;margin:0;}
+  .header {text-align:center;background:#6c4d26;color:#fff;padding:12px;border-radius:8px;font-size:24px;}
+  .view-toggle {text-align:center;margin:16px 0;}
+  .view-toggle a {text-decoration:none;margin:0 8px;padding:6px 12px;border-radius:6px;color:#222;background:#ffcc66;}
+  .card {background:#fff;border-radius:8px;border:1px solid #ddd;margin:12px auto;padding:16px;max-width:480px;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+  .card div {margin:6px 0;font-size:18px;}
+  .call-btn {color:green;text-decoration:none;font-weight:bold;}
+  .btn-paid {padding:10px 16px;border:none;border-radius:6px;color:#fff;cursor:pointer;font-size:16px;}
+  .paid {background:green;} .unpaid {background:orange;}
+</style>
+</head>
+<body>
+  <div class="header">🔖 श्री शंभू लेखनी</div>
+  <div class="view-toggle">
+    <a href="/card">👤 कार्ड व्यू</a>
+    <a href="/table">📋 टेबल व्यू</a>
+  </div>
+  {% for person in data %}
+  <div class="card">
+    <div><strong>क्रम:</strong> {{ person['क्रम'] }}</div>
+    <div><strong>नाम:</strong> {{ person['नाम'] }}</div>
+    <div><strong>वर्ग:</strong> {{ person['वर्ग'] }}</div>
+    <div><strong>आधार:</strong> {{ person['आधार नंबर'] }}</div>
+    <div><strong>मोबाइल:</strong> <a class="call-btn" href="tel:{{ person['मोबाईल न'] }}">📞 {{ person['मोबाईल न'] }}</a></div>
+    <div><strong>Paid:</strong> ₹{{ person['Paid'] }}</div>
+    <div><strong>Dues:</strong> ₹{{ person['Dues'] }}</div>
+    {% set is_paid = loop.index0 in paid_indices %}
+    <form method="POST" action="/mark_paid/{{ loop.index0 }}">
+      <button type="submit" class="btn-paid {{ 'paid' if is_paid else 'unpaid' }}">
+        {{ '✔ Paid' if is_paid else '💰 Mark as Paid' }}
+      </button>
+    </form>
+  </div>
+  {% endfor %}
+</body>
+</html>
